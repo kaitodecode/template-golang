@@ -1,0 +1,38 @@
+services:
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: utschool
+      POSTGRES_PASSWORD: utschool
+      POSTGRES_DB: utschool_db
+    ports:
+      - "10001:5432"
+    volumes:
+      - db_data:/var/lib/postgresql15/data
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "10002:8080"
+
+  redis:
+    image: redis:latest
+    command: redis-server --requirepass utschool
+    ports:
+      - "10003:6379"
+    volumes:
+      - redis_data:/data
+
+  redisinsight:
+    image: redis/redisinsight:2.56  # atau latest tapi ingat pakai port 5540
+    ports:
+      - "10004:5540"
+    volumes:
+      - redisinsight_data:/data
+
+
+volumes:
+  db_data:
+  redis_data:
+  redisinsight_data:
